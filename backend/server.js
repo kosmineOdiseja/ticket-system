@@ -1,9 +1,14 @@
 const express = require('express')
+const colors = require('colors')
 const dotenv = require('dotenv').config()
 const { errorHandler } = require('./middleware/errorMiddleware')
 const PORT = process.env.PORT || 8000
+const connectDB = require('./config/db')
 
 const app = express()
+
+// connect to the database 
+connectDB()
 
 // This is line for middleware parser
  app.use(express.json())
