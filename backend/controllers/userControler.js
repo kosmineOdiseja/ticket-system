@@ -1,7 +1,9 @@
+const asyncHandler = require('express-async-handler')
+
 // @desc Register a new user
 // @route /api/users
 // @access Public
-const registerUser = (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
 	// we can get undefine because we need to get bodyparser middleware.
 	// This is 
 	console.log(req.body)
@@ -15,16 +17,16 @@ const registerUser = (req, res) => {
 	}
 
 	res.send('Register Route')
-} 
+}) 
 
 // @desc Login a new user
 // @route /api/users/login
 // @access Public
-const loginUser = (req, res) => {
+const loginUser = asyncHandler(async (req, res) => {
 	res.send('Login Route')
-}
+})
 
 module.exports = {
 	registerUser,
 	loginUser,
-} 
+}

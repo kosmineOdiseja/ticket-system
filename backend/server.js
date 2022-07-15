@@ -3,7 +3,6 @@ const dotenv = require('dotenv').config()
 const { errorHandler } = require('./middleware/errorMiddleware')
 const PORT = process.env.PORT || 8000
 
-
 const app = express()
 
 // This is line for middleware parser
@@ -15,6 +14,7 @@ app.get('/', (req, res ) => {
 })
 // routes 
 app.use('/api/users', require('./routes/userRoutes'))
+
 app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`server started on Port ${PORT}`))
