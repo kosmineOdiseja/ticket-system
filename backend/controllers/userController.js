@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 const User = require('../models/userModel')
+const jwt = require('jsonwebtoken')
 
 // @desc Register a new user
 // @route /api/users
@@ -8,7 +9,7 @@ const User = require('../models/userModel')
 const registerUser = asyncHandler(async (req, res) => {
 	// we can get undefine because we need to get bodyparser middleware.
 	// This is 
-	console.log(req.body)
+	// console.log(req.body)
 	// this how we get those variables 
 	const {name, email, password} = (req.body)
 
@@ -41,7 +42,8 @@ const registerUser = asyncHandler(async (req, res) => {
 		res.status(201).json({
 			_id: user._id, 
 			name: user.name,
-			email: user.email
+			email: user.email,
+			token: generateToken(user._id)
 		}) 
 	} else {
 		res.status(400)
@@ -65,15 +67,30 @@ const loginUser = asyncHandler(async(req, res) => {
 		res.status(200).json({
 			_id: user._id,
 			name: user.name,
-			email: user.email
+			email: user.email,
+			token: generateToken(user._id)
 		})
 	} else {
 		res.status(401) 
 		throw new Error('Invalid credentials')
 	}
 })
+// @desc Get current user
+// @route /api/users/me
+// @access Private 
+const getMe = asyncHandler(async (req, res) => {
+	res.send('me')
+})
 
+// Generate token
+
+const generateToken = (id) => {
+	return jwt.sign({id}, process.env.JWT_SECRET, {
+		expiresIn:  '30d'
+	} )
+}
 module.exports = {
 	registerUser,
 	loginUser,
+	getMe,
 }
