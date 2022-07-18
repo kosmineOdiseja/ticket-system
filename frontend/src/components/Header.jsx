@@ -7,7 +7,6 @@ export default function Header() {
 	<header className='header'>
 		<div className="logo">
 			<Link to='/'>Support Desk</Link>
-
 		</div>
 		<ul>
 			<li>
@@ -15,6 +14,7 @@ export default function Header() {
 					<FaSignInAlt /> Login
 				</Link>
 			</li>
+			
 			<li>
 				<Link to='/register'>
 					<FaUser /> Register
