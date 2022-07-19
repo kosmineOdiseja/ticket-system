@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../features/auth/authSlise";
+import { login } from "../features/auth/authSlice";
 
 function Login() {
   const [formData, setFormData] = useState({
