@@ -10,21 +10,15 @@ const initialState = {
 }
 // Register new user 
 export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
-	console.log(user, 'firs t 1')
 	try {
+		// this line is going to the authService.js file and do his his job
 		return await authService.register(user)
-		console.log(user, 'this is user 2')
 	} catch (error) {
 		const message = (error.response && error.response.data && error.response.message) ||
 			error.message || error.toString()
-		console.log(error, 'this is error')
-		console.log(message, "this is message")
-
-
 		return thunkAPI.rejectWithValue(message)
 	}
 })
-console.log(register, 'this is register')
 
 // Login user 
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
@@ -42,10 +36,12 @@ export const authSlice = createSlice({
 			state.message = ''
 		}
 	},
+	// because we are using createAsyncThunk we can use extension here like register/pending or register/register and etc 
 	extraReducers: (builder) => {
-		builder.addCase(register.pending, (state) => {
-			state.isLoading = true
-		})
+		builder
+			.addCase(register.pending, (state) => {
+				state.isLoading = true
+			})
 			.addCase(register.fulfilled, (state, action) => {
 				state.isLoading = false
 				state.isSuccess = true

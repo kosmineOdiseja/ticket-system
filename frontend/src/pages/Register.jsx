@@ -13,12 +13,12 @@ function Register() {
     password2: "",
   });
 
-  const { name, email, password, password2, isError } = formData;
+  const { name, email, password, password2 } = formData;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isLoading, isSuccess, message } = useSelector(
+  const { user, isLoading, isSuccess, message, isError } = useSelector(
     (state) => state.auth
   );
 
