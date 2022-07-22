@@ -11,14 +11,15 @@ const app = express()
 connectDB()
 
 // This is line for middleware parser
- app.use(express.json())
- app.use(express.urlencoded({extended: false}))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
-app.get('/', (req, res ) => {
-	res.status(200).json({message: "welcomme"})
+app.get('/', (req, res) => {
+	res.status(200).json({ message: "welcomme" })
 })
 // routes 
 app.use('/api/users', require('./routes/userRoutes'))
+app.use('/api/tickets', require('./routes/ticketRoutes'))
 
 app.use(errorHandler)
 
