@@ -12,7 +12,7 @@ function Login() {
     password: "",
   });
 
-  const { name, email, password, password2 } = formData;
+  const { email, password } = formData;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,13 +24,14 @@ function Login() {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      console.log(message, "this  should be error message");
     }
     // redirect when loggen in
     if (isSuccess || user) {
       navigate("/");
     }
     dispatch(reset());
-  }, [isError, isSuccess, isLoading, user, message, navigate, dispatch]);
+  }, [isError, isSuccess, user, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({

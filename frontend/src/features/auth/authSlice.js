@@ -17,7 +17,8 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
 		// this line is going to the authService.js file and do his his job
 		return await authService.register(user)
 	} catch (error) {
-		const message = (error.response && error.response.data && error.response.message) ||
+		console.log(error, 'this is error type')
+		const message = (error.response && error.response.data && error.response.data.message) ||
 			error.message || error.toString()
 		return thunkAPI.rejectWithValue(message)
 	}
@@ -25,13 +26,16 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
 
 // Login user 
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
+	console.log(user, 'this is user')
 
 	try {
 		// this line is going to the authService.js file and do his his job
 		return await authService.login(user)
 	} catch (error) {
-		const message = (error.response && error.response.data && error.response.message) ||
+		console.log(error, 'this is error type ddddddd ')
+		const message = (error.response && error.response.data && error.response.data.message) ||
 			error.message || error.toString()
+		console.log(message, 'this error message 401 ')
 		return thunkAPI.rejectWithValue(message)
 	}
 })
@@ -84,12 +88,12 @@ export const authSlice = createSlice({
 				state.isLoading = false
 				state.isError = true
 				state.message = action.payload
+				console.log(action.payload, 'this action.payload')
 				state.user = null
 			})
 	}
 
 })
-console.log(authSlice, 'this authslice')
 
 export const { reset } = authSlice.actions;
 export default authSlice.reducer
