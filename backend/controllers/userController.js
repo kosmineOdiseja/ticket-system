@@ -11,15 +11,17 @@ const registerUser = asyncHandler(async (req, res) => {
 	// This is 
 	// console.log(req.body)
 	// this how we get those variables 
-	const {name, email, password} = (req.body)
+	const { name, email, password } = (req.body)
+
+	console.log(name, 'this is name ')
 
 	// validation
-	if(!name || !email || !password) {
+	if (!name || !email || !password) {
 		res.status(400)
 		throw new Error('Please include all fields')
 	}
 	// Find if user already exists
-	const userExists = await User.findOne({email})
+	const userExists = await User.findOne({ email })
 
 	if (userExists) {
 		res.status(400)
@@ -40,30 +42,30 @@ const registerUser = asyncHandler(async (req, res) => {
 
 	if (user) {
 		res.status(201).json({
-			_id: user._id, 
+			_id: user._id,
 			name: user.name,
 			email: user.email,
 			token: generateToken(user._id)
-		}) 
+		})
 	} else {
 		res.status(400)
 		throw new error('Invalid user data')
 	}
 
-}) 
+})
 
 // @desc Login a new user
 // @route /api/users/login
 // @access Public
-const loginUser = asyncHandler(async(req, res) => {
+const loginUser = asyncHandler(async (req, res) => {
 
 	const { email, password } = req.body
 
-	const user = await User.findOne({email})
+	const user = await User.findOne({ email })
 	// console.log(user, 'this is user ')
-	
-// check user and password match.
-	if( user && (await bcrypt.compare(password, user.password))) {
+
+	// check user and password match.
+	if (user && (await bcrypt.compare(password, user.password))) {
 		res.status(200).json({
 			_id: user._id,
 			name: user.name,
@@ -71,7 +73,7 @@ const loginUser = asyncHandler(async(req, res) => {
 			token: generateToken(user._id)
 		})
 	} else {
-		res.status(401) 
+		res.status(401)
 		throw new Error('Invalid credentials')
 	}
 })
@@ -91,9 +93,9 @@ const getMe = asyncHandler(async (req, res) => {
 // Generate token
 
 const generateToken = (id) => {
-	return jwt.sign({id}, process.env.JWT_SECRET, {
-		expiresIn:  '30d'
-	} )
+	return jwt.sign({ id }, process.env.JWT_SECRET, {
+		expiresIn: '30d'
+	})
 }
 module.exports = {
 	registerUser,

@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler')
 
 const User = require('../models/userModel')
-const Ticked = require('../models/ticketModel')
+const Ticket = require('../models/ticketModel')
+const { get } = require('mongoose')
 
 // @desc Get user ticket
 // @route /api/tickets
@@ -15,10 +16,39 @@ const getTickets = asyncHandler(async (req, res) => {
 		throw new Error('User not found')
 	}
 
-	const tickets = await Ticked.find({ user: req.user.id })
+	const tickets = await Ticket.find({ user: req.user.id })
 
 	res.status(200).json(tickets)
 })
+
+// @desc Get user ticket
+// @route /api/tickets/:id
+// @access Private 
+const getTicket = asyncHandler(async (req, res) => {
+	// get user using the id in the JWT
+	const user = await User.findById(req.user.id)
+
+	if (!user) {
+		res.status(401)
+		throw new Error('User not found')
+	}
+
+	const ticket = await Ticket.findById(req.params.id)
+	console.log(ticket, 'its ticket ')
+
+	if (!ticket) {
+		res.status(404)
+		throw new Error('Ticket not found')
+	}
+
+	if (ticket.user.toString() != req.user.id) {
+		res.status(401)
+		throw new Error('Not Authorized')
+	}
+
+	res.status(200).json(ticket)
+})
+
 // @desc Create user ticket
 // @route /api/tickets
 // @access Private 
@@ -30,7 +60,7 @@ const createTicket = asyncHandler(async (req, res) => {
 		throw new Error('Please add a product and description')
 
 	}
-	const ticket = await Ticked.create({
+	const ticket = await Ticket.create({
 		product,
 		description,
 		user: req.user.id,
@@ -41,5 +71,7 @@ const createTicket = asyncHandler(async (req, res) => {
 
 module.exports = {
 	getTickets,
-	createTicket
+	createTicket,
+	getTicket,
+
 }
