@@ -1,63 +1,80 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { createTicket, reset } from "../features/tickets/ticketSlice";
+import Spinner from "../components/Spinner";
+import BackButton from "../components/BackButton";
 
 function NewTicket() {
   const { user } = useSelector((state) => state.auth);
+
+  const { isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.ticket
+  );
   // we can do like this... if we don't change value
   const [name] = useState(user.name);
   const [email] = useState(user.email);
   const [product, setProduct] = useState("");
   const [description, setDescription] = useState("");
 
-  const onSubmit = () => {};
-  const onChange = () => {};
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess) {
+      dispatch(reset());
+      navigate("/tickets");
+    }
+  }, [dispatch, isError, isSuccess, navigate, message]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(product);
+    dispatch(createTicket({ product, description }));
+  };
+
+  if (isLoading) {
+    <Spinner />;
+  }
 
   return (
     <>
+      <BackButton url="/" />
       <section className="heading">
-        <h1> Create a new Ticket </h1>
-        <p> Please fill out the form bellow</p>
+        <h1>Create New Ticket</h1>
+        <p>Please fill out the form below</p>
       </section>
+
       <section className="form">
         <div className="form-group">
-          <label htmlFor="name"> Customer Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={name}
-            onChange={onChange}
-            // disabled
-          ></input>
+          <label htmlFor="name">Customer Name</label>
+          <input type="text" className="form-control" value={name} disabled />
         </div>
         <div className="form-group">
-          <label htmlFor="name"> Customer email</label>
-          <input
-            type="email"
-            className="form-control"
-            value={email}
-            disabled
-          ></input>
-          <form onSubmit={onSubmit}>
-            <label htmlFor="product"> Product</label>
+          <label htmlFor="email">Customer Email</label>
+          <input type="text" className="form-control" value={email} disabled />
+        </div>
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <label htmlFor="product">Product</label>
             <select
               name="product"
               id="product"
               value={product}
               onChange={(e) => setProduct(e.target.value)}
             >
-              <option value="iPhone" onChange={onChange}>
-                iPhone
-              </option>
-              <option value="Macbook Pro" onChange={onChange}>
-                Macbook Pro{" "}
-              </option>
-              <option value="iMac" onChange={onChange}>
-                iMac
-              </option>
+              <option value="iPhone">iPhone</option>
+              <option value="Macbook Pro">Macbook Pro</option>
+              <option value="iMac">iMac</option>
+              <option value="iPad">iPad</option>
             </select>
-          </form>
+          </div>
           <div className="form-group">
-            <label htmlFor="description"> Description of the issue</label>
+            <label htmlFor="description">Description of the issue</label>
             <textarea
               name="description"
               id="description"
@@ -65,14 +82,12 @@ function NewTicket() {
               placeholder="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-            >
-              Description of the issue
-            </textarea>
+            ></textarea>
           </div>
           <div className="form-group">
-            <button className="btn btn-block">Submit </button>
+            <button className="btn btn-block">Submit</button>
           </div>
-        </div>
+        </form>
       </section>
     </>
   );
