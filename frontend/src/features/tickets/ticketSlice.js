@@ -31,7 +31,7 @@ export const getTickets = createAsyncThunk('tickets/getAll', async (_, thunkAPI)
 	try {
 		const token = thunkAPI.getState().auth.user.token
 		// this line is going to the authService.js file and do his his job
-		return await getTickets.getTickets(token)
+		return await ticketService.getTickets(token)
 	} catch (error) {
 		console.log(error, 'this is error type')
 		const message = (error.response && error.response.data && error.response.data.message) ||

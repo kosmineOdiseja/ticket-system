@@ -10,7 +10,7 @@ function NewTicket() {
   const { user } = useSelector((state) => state.auth);
 
   const { isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.ticket
+    (state) => state.tickets
   );
   // we can do like this... if we don't change value
   const [name] = useState(user.name);
@@ -38,7 +38,7 @@ function NewTicket() {
   };
 
   if (isLoading) {
-    <Spinner />;
+    return <Spinner />;
   }
 
   return (
