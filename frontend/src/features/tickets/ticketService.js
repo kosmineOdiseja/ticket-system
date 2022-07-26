@@ -20,7 +20,24 @@ const createTicket = async (ticketData, token) => {
 	return response.data
 }
 
+// Get user Tickets
+const getTickets = async (token) => {
+	// when we have token we need to to like this 
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`
+		}
+	}
+	const response = await axios.post(API_URL, config)
+
+
+	return response.data
+}
+
+
 const ticketServerice = {
-	createTicket
+	createTicket,
+	getTickets
+
 }
 export default ticketServerice
