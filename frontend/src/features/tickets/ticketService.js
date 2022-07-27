@@ -29,15 +29,13 @@ const getTickets = async (token) => {
 		}
 	}
 	const response = await axios.get(API_URL, config)
-
-
 	return response.data
 }
 
 
-const ticketServerice = {
+const ticketService = {
 	createTicket,
 	getTickets
 
 }
-export default ticketServerice
+export default ticketService

@@ -10,6 +10,10 @@ function Tickets() {
     (state) => state.tickets
   );
 
+  console.log(tickets, "this is tickets");
+  console.log(isLoading, "this isloading");
+  console.log(isSuccess, "this isSuccess");
+
   const dispatch = useDispatch();
   // this is to fix some stupid error
   useEffect(() => {
@@ -27,11 +31,8 @@ function Tickets() {
   if (isLoading) {
     return <Spinner />;
   }
-  if (isLoading) {
-    return <Spinner />;
-  }
 
-  return <div>Ticket</div>;
+  return <div>Tickets</div>;
 }
 
 export default Tickets;
