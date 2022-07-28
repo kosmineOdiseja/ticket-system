@@ -4,6 +4,7 @@ import { getTicket, reset, closeTicket } from "../features/tickets/ticketSlice";
 import { getNotes, reset as NotesReset } from "../features/notes/noteSlice";
 import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
+import NoteItem from "../components/NoteItem";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -38,7 +39,7 @@ function Ticket() {
     navigate("/tickets");
   };
 
-  if (isLoading) {
+  if (isLoading || notesIsloading) {
     return <Spinner />;
   }
   if (isError) {
@@ -66,6 +67,10 @@ function Ticket() {
         </div>
         <h2>Notes</h2>
       </header>
+
+      {notes.map((note) => (
+        <NoteItem key={note._id} note={note} />
+      ))}
       {ticket.status !== "closed" && (
         <button className="btn btn-block btn-danger" onClick={onTicketClose}>
           Close Ticket{" "}
