@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const API_URL = "/api/tickets"
-
+const API_URL = "/api/tickets/"
 
 // Get user Tickets
 const getNotes = async (ticketId, token) => {
+	// headers should be in the lover case :(
 	const config = {
-		Headers: {
+		headers: {
 			Authorization: `Bearer ${token}`
 		}
 	}
@@ -15,6 +15,7 @@ const getNotes = async (ticketId, token) => {
 
 	return response.data
 }
+
 
 const noteService = {
 	getNotes,

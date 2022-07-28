@@ -9,12 +9,13 @@ const initialState = {
 	message: '',
 }
 
-// get a  ticket notes 
+// get a ticket notes 
 export const getNotes = createAsyncThunk('notes/getAll', async (ticketId, thunkAPI) => {
+	console.log(ticketId, 'this is ticketId')
 	try {
 		const token = thunkAPI.getState().auth.user.token
 		// this line is going to the authService.js file and do his his job
-		return await noteService.getNote(ticketId, token)
+		return await noteService.getNotes(ticketId, token)
 	} catch (error) {
 		const message = (error.response && error.response.data && error.response.data.message) ||
 			error.message || error.toString()
