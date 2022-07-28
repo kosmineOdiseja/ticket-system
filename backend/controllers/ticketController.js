@@ -58,7 +58,6 @@ const createTicket = asyncHandler(async (req, res) => {
 	if (!product || !description) {
 		res.status(400)
 		throw new Error('Please add a product and description')
-
 	}
 	const ticket = await Ticket.create({
 		product,
